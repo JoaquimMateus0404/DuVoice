@@ -140,13 +140,15 @@ class RecordFragment : Fragment() {
 
                 launch {
                     viewModel.recordingName.collectLatest { name ->
-                        // Só atualizar automaticamente se:
-                        // 1. O campo estiver vazio OU
-                        // 2. Estivermos no estado IDLE (antes de começar a gravar)
                         val currentText = binding.etName.text?.toString() ?: ""
                         val isIdle = viewModel.recordingState.value == AudioRecorder.State.IDLE
 
-                        if (currentText.isBlank() && isIdle && name.isNotBlank()) {
+                        // Se o ViewModel enviar vazio, limpar o campo
+                        if (name.isBlank()) {
+                            binding.etName.setText("")
+                        }
+                        // Caso contrário, só atualizar se o campo estiver vazio e estivermos IDLE
+                        else if (currentText.isBlank() && isIdle) {
                             binding.etName.setText(name)
                         }
                     }
