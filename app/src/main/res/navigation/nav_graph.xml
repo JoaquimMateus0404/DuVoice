@@ -44,4 +44,10 @@
         android:label="@string/settings_label"
         tools:layout="@layout/fragment_settings" />
 
+    <fragment
+        android:id="@+id/statsFragment"
+        android:name="com.cleansoft.duvoice.ui.stats.StatsFragment"
+        android:label="@string/stats_label"
+        tools:layout="@layout/fragment_stats" />
+
 </navigation>

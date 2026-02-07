@@ -5,10 +5,12 @@ import com.cleansoft.duvoice.data.local.database.AppDatabase
 import com.cleansoft.duvoice.data.local.entity.RecordingEntity
 import com.cleansoft.duvoice.data.model.Category
 import com.cleansoft.duvoice.data.model.Recording
+import com.cleansoft.duvoice.data.model.RecordingStats
 import com.cleansoft.duvoice.data.model.SortOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.io.File
+import java.util.Calendar
 
 class RecordingRepository(context: Context) {
 
@@ -106,6 +108,55 @@ class RecordingRepository(context: Context) {
             dir.mkdirs()
         }
         return dir
+    }
+
+    suspend fun getStats(): RecordingStats {
+        val startOfWeek = getStartOfWeekMillis()
+
+        val totalRecordings = recordingDao.getTotalRecordingsCount()
+        val totalDuration = recordingDao.getTotalDuration()
+        val totalSize = recordingDao.getTotalSize()
+        val recordingsThisWeek = recordingDao.getRecordingsCountThisWeek(startOfWeek)
+        val durationThisWeek = recordingDao.getDurationThisWeek(startOfWeek)
+        val longestRecording = recordingDao.getLongestRecordingDuration()
+        val favoriteCount = recordingDao.getFavoriteCount()
+        val categoryCountList = recordingDao.getRecordingsCountByCategory()
+
+        val recordingsByCategory = categoryCountList.associate {
+            try {
+                Category.valueOf(it.category) to it.count
+            } catch (e: Exception) {
+                Category.GENERAL to it.count
+            }
+        }
+
+        val averageDuration = if (totalRecordings > 0) {
+            totalDuration / totalRecordings
+        } else {
+            0L
+        }
+
+        return RecordingStats(
+            totalRecordings = totalRecordings,
+            totalDurationMs = totalDuration,
+            totalSizeBytes = totalSize,
+            recordingsThisWeek = recordingsThisWeek,
+            durationThisWeekMs = durationThisWeek,
+            averageDurationMs = averageDuration,
+            longestRecordingMs = longestRecording,
+            favoriteCount = favoriteCount,
+            recordingsByCategory = recordingsByCategory
+        )
+    }
+
+    private fun getStartOfWeekMillis(): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.firstDayOfWeek)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        return calendar.timeInMillis
     }
 }
 

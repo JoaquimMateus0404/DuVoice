@@ -40,7 +40,10 @@ class PlayerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recordingId = arguments?.getLong("recordingId") ?: return
+        val recordingId = arguments?.getLong("recordingId") ?: run {
+            findNavController().navigateUp()
+            return
+        }
         viewModel.loadRecording(recordingId)
 
         setupControls()
@@ -88,6 +91,9 @@ class PlayerFragment : Fragment() {
                             binding.tvName.text = it.name
                             binding.tvInfo.text = "${it.category.icon} ${it.category.displayName} • ${it.sizeFormatted} • ${it.format.extension.uppercase()}"
                             updateFavoriteButton(it.isFavorite)
+
+                            // Carregar waveform estático para o ficheiro
+                            binding.waveformView.loadFromFile(it.filePath)
                         }
                     }
                 }
@@ -102,6 +108,11 @@ class PlayerFragment : Fragment() {
                     viewModel.currentPosition.collectLatest { position ->
                         if (!binding.slider.isPressed) {
                             binding.slider.value = position.toFloat().coerceIn(binding.slider.valueFrom, binding.slider.valueTo)
+                        }
+                        // Atualizar progresso do waveform
+                        val duration = viewModel.duration.value
+                        if (duration > 0) {
+                            binding.waveformView.setProgress(position.toFloat() / duration)
                         }
                     }
                 }
@@ -121,6 +132,15 @@ class PlayerFragment : Fragment() {
                 launch {
                     viewModel.durationFormatted.collectLatest { time ->
                         binding.tvDuration.text = time
+                    }
+                }
+
+                launch {
+                    viewModel.deleted.collectLatest { deleted ->
+                        if (deleted) {
+                            Snackbar.make(binding.root, R.string.recording_deleted, Snackbar.LENGTH_SHORT).show()
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             }
@@ -169,8 +189,7 @@ class PlayerFragment : Fragment() {
                 .setTitle(R.string.delete_recording)
                 .setMessage(getString(R.string.delete_confirmation, recording.name))
                 .setPositiveButton(R.string.delete) { _, _ ->
-                    // Implementar delete e voltar
-                    findNavController().navigateUp()
+                    viewModel.deleteRecording()
                 }
                 .setNegativeButton(R.string.cancel_dialog, null)
                 .show()
@@ -179,8 +198,7 @@ class PlayerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.audioPlayer.release()
+        viewModel.releasePlayer()
         _binding = null
     }
 }
-

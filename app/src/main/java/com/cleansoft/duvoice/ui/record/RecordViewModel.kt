@@ -185,10 +185,17 @@ class RecordViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun cancelRecording(context: Context) {
-        audioService?.stopRecording()
+        // Parar o serviço
+        val intent = Intent(context, AudioRecordService::class.java).apply {
+            action = AudioRecordService.ACTION_STOP
+        }
+        context.startService(intent)
+
+        // Apagar ficheiro se existir
         currentOutputFile?.delete()
         currentOutputFile = null
 
+        // Zerar todos os estados
         _elapsedTime.value = 0L
         _amplitude.value = 0
         _recordingName.value = ""

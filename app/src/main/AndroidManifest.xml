@@ -47,6 +47,20 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <!-- Widget de gravação rápida -->
+        <receiver
+            android:name=".widget.QuickRecordWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.cleansoft.duvoice.TOGGLE_RECORDING" />
+                <action android:name="com.cleansoft.duvoice.QUICK_IDEA" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_quick_record_info" />
+        </receiver>
+
     </application>
 
 </manifest>

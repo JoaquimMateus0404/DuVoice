@@ -34,15 +34,19 @@ class AudioRecordService : Service() {
         const val ACTION_PAUSE = "com.cleansoft.duvoice.action.PAUSE"
         const val ACTION_RESUME = "com.cleansoft.duvoice.action.RESUME"
         const val ACTION_STOP = "com.cleansoft.duvoice.action.STOP"
+        const val ACTION_TOGGLE_FROM_WIDGET = "com.cleansoft.duvoice.action.TOGGLE_WIDGET"
 
         const val EXTRA_OUTPUT_PATH = "output_path"
         const val EXTRA_QUALITY = "quality"
         const val EXTRA_IS_STEREO = "is_stereo"
+        const val EXTRA_IS_QUICK_IDEA = "is_quick_idea"
     }
 
     private val binder = LocalBinder()
     private val audioRecorder = AudioRecorder()
     private var notificationUpdateJob: Job? = null
+    private var currentOutputFile: File? = null
+    private var isQuickIdea = false
 
     val state: StateFlow<AudioRecorder.State> get() = audioRecorder.state
     val amplitude: StateFlow<Int> get() = audioRecorder.amplitude
@@ -73,8 +77,76 @@ class AudioRecordService : Service() {
             ACTION_PAUSE -> pauseRecording()
             ACTION_RESUME -> resumeRecording()
             ACTION_STOP -> stopRecording()
+            ACTION_TOGGLE_FROM_WIDGET -> {
+                isQuickIdea = intent.getBooleanExtra(EXTRA_IS_QUICK_IDEA, false)
+                toggleRecordingFromWidget()
+            }
         }
         return START_STICKY
+    }
+
+    private fun toggleRecordingFromWidget() {
+        when (audioRecorder.state.value) {
+            AudioRecorder.State.IDLE, AudioRecorder.State.STOPPED -> {
+                // Iniciar nova gravação
+                val dir = File(getExternalFilesDir(null), "recordings")
+                if (!dir.exists()) dir.mkdirs()
+
+                val timestamp = System.currentTimeMillis()
+                val prefix = if (isQuickIdea) "idea" else "recording"
+                val fileName = "${prefix}_$timestamp.wav"
+                currentOutputFile = File(dir, fileName)
+
+                startRecording(currentOutputFile!!.absolutePath, AudioQuality.MEDIUM, false)
+                updateWidgetState(true)
+            }
+            AudioRecorder.State.RECORDING, AudioRecorder.State.PAUSED -> {
+                // Parar gravação
+                stopRecording()
+                updateWidgetState(false)
+
+                // Salvar na base de dados
+                currentOutputFile?.let { file ->
+                    if (file.exists() && file.length() > 44) {
+                        saveRecordingToDatabase(file)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun saveRecordingToDatabase(file: File) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val category = if (isQuickIdea) "IDEAS" else "GENERAL"
+                val name = if (isQuickIdea) {
+                    "💡 Ideia ${java.text.SimpleDateFormat("dd/MM HH:mm", java.util.Locale.getDefault()).format(java.util.Date())}"
+                } else {
+                    "Gravação ${java.text.SimpleDateFormat("dd/MM HH:mm", java.util.Locale.getDefault()).format(java.util.Date())}"
+                }
+
+                val recording = com.cleansoft.duvoice.data.model.Recording(
+                    name = name,
+                    filePath = file.absolutePath,
+                    duration = elapsedTime.value,
+                    size = file.length(),
+                    format = com.cleansoft.duvoice.data.model.AudioFormat.WAV,
+                    category = com.cleansoft.duvoice.data.model.Category.valueOf(category),
+                    sampleRate = 44100,
+                    channels = 1,
+                    bitRate = 705600
+                )
+
+                val repository = com.cleansoft.duvoice.data.repository.RecordingRepository(applicationContext)
+                repository.insertRecording(recording)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun updateWidgetState(isRecording: Boolean) {
+        com.cleansoft.duvoice.widget.QuickRecordWidget.updateWidget(this, isRecording)
     }
 
     private fun startRecording(outputPath: String, quality: AudioQuality, isStereo: Boolean) {

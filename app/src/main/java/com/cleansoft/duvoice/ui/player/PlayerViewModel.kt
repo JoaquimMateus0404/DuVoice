@@ -8,6 +8,7 @@ import com.cleansoft.duvoice.data.repository.RecordingRepository
 import com.cleansoft.duvoice.util.audio.AudioPlayer
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.io.File
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -16,6 +17,9 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _currentRecording = MutableStateFlow<Recording?>(null)
     val currentRecording: StateFlow<Recording?> = _currentRecording.asStateFlow()
+
+    private val _deleted = MutableSharedFlow<Boolean>()
+    val deleted: SharedFlow<Boolean> = _deleted.asSharedFlow()
 
     val playerState: StateFlow<AudioPlayer.State> = audioPlayer.state
     val currentPosition: StateFlow<Int> = audioPlayer.currentPosition
@@ -79,6 +83,36 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun deleteRecording() {
+        viewModelScope.launch {
+            _currentRecording.value?.let { recording ->
+                // Parar reprodução primeiro
+                audioPlayer.stop()
+                audioPlayer.release()
+
+                // Apagar ficheiro
+                try {
+                    val file = File(recording.filePath)
+                    if (file.exists()) {
+                        file.delete()
+                    }
+                } catch (e: Exception) {
+                    // Ignorar erros ao apagar ficheiro
+                }
+
+                // Apagar da base de dados
+                repository.deleteRecordingById(recording.id)
+
+                // Emitir evento de apagado
+                _deleted.emit(true)
+            }
+        }
+    }
+
+    fun releasePlayer() {
+        audioPlayer.release()
+    }
+
     private fun formatTime(milliseconds: Int): String {
         val totalSeconds = milliseconds / 1000
         val minutes = totalSeconds / 60
@@ -91,4 +125,3 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         audioPlayer.release()
     }
 }
-

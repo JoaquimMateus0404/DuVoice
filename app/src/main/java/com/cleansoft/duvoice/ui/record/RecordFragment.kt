@@ -158,11 +158,13 @@ class RecordFragment : Fragment() {
         when (state) {
             AudioRecorder.State.IDLE, AudioRecorder.State.STOPPED -> {
                 binding.tvState.text = getString(R.string.tap_to_start)
+                binding.tvTimer.text = "00:00"
                 binding.btnRecord.setImageResource(R.drawable.ic_mic)
                 binding.btnCancel.isVisible = false
                 binding.btnStop.isVisible = false
                 binding.categoryLayout.isEnabled = true
                 binding.nameLayout.isEnabled = true
+                binding.waveformView.clear()
             }
             AudioRecorder.State.RECORDING -> {
                 binding.tvState.text = getString(R.string.recording)

@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_mic"
         android:title="@string/record_label" />
     <item
+        android:id="@+id/statsFragment"
+        android:icon="@drawable/ic_stats"
+        android:title="@string/stats_label" />
+    <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings_label" />

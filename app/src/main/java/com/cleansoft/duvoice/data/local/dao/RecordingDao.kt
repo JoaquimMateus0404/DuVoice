@@ -62,5 +62,35 @@ interface RecordingDao {
 
     @Query("UPDATE recordings SET category = :category WHERE id = :id")
     suspend fun updateCategory(id: Long, category: String)
+
+    // Estatísticas
+    @Query("SELECT COUNT(*) FROM recordings")
+    suspend fun getTotalRecordingsCount(): Int
+
+    @Query("SELECT COALESCE(SUM(duration), 0) FROM recordings")
+    suspend fun getTotalDuration(): Long
+
+    @Query("SELECT COALESCE(SUM(size), 0) FROM recordings")
+    suspend fun getTotalSize(): Long
+
+    @Query("SELECT COUNT(*) FROM recordings WHERE createdAt >= :startOfWeek")
+    suspend fun getRecordingsCountThisWeek(startOfWeek: Long): Int
+
+    @Query("SELECT COALESCE(SUM(duration), 0) FROM recordings WHERE createdAt >= :startOfWeek")
+    suspend fun getDurationThisWeek(startOfWeek: Long): Long
+
+    @Query("SELECT COALESCE(MAX(duration), 0) FROM recordings")
+    suspend fun getLongestRecordingDuration(): Long
+
+    @Query("SELECT COUNT(*) FROM recordings WHERE isFavorite = 1")
+    suspend fun getFavoriteCount(): Int
+
+    @Query("SELECT category, COUNT(*) as count FROM recordings GROUP BY category")
+    suspend fun getRecordingsCountByCategory(): List<CategoryCount>
+
+    data class CategoryCount(
+        val category: String,
+        val count: Int
+    )
 }
 
