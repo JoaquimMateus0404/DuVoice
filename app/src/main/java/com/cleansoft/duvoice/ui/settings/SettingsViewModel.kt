@@ -36,5 +36,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             repository.updateStereo(isStereo)
         }
     }
-}
 
+    fun updateCaptureInternalAudio(captureInternal: Boolean) {
+        viewModelScope.launch {
+            repository.updateCaptureInternalAudio(captureInternal)
+        }
+    }
+}

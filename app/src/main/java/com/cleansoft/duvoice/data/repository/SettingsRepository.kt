@@ -14,7 +14,8 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 data class AudioSettings(
     val quality: AudioQuality = AudioQuality.MEDIUM,
     val format: AudioFormat = AudioFormat.AAC,
-    val isStereo: Boolean = false
+    val isStereo: Boolean = false,
+    val captureInternalAudio: Boolean = false
 )
 
 class SettingsRepository(private val context: Context) {
@@ -23,6 +24,7 @@ class SettingsRepository(private val context: Context) {
         val AUDIO_QUALITY = stringPreferencesKey("audio_quality")
         val AUDIO_FORMAT = stringPreferencesKey("audio_format")
         val IS_STEREO = booleanPreferencesKey("is_stereo")
+        val CAPTURE_INTERNAL_AUDIO = booleanPreferencesKey("capture_internal_audio")
     }
 
     val audioSettings: Flow<AudioSettings> = context.dataStore.data.map { preferences ->
@@ -33,7 +35,8 @@ class SettingsRepository(private val context: Context) {
             format = preferences[PreferencesKeys.AUDIO_FORMAT]?.let {
                 AudioFormat.valueOf(it)
             } ?: AudioFormat.AAC,
-            isStereo = preferences[PreferencesKeys.IS_STEREO] ?: false
+            isStereo = preferences[PreferencesKeys.IS_STEREO] ?: false,
+            captureInternalAudio = preferences[PreferencesKeys.CAPTURE_INTERNAL_AUDIO] ?: false
         )
     }
 
@@ -52,6 +55,12 @@ class SettingsRepository(private val context: Context) {
     suspend fun updateStereo(isStereo: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.IS_STEREO] = isStereo
+        }
+    }
+
+    suspend fun updateCaptureInternalAudio(captureInternal: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.CAPTURE_INTERNAL_AUDIO] = captureInternal
         }
     }
 }

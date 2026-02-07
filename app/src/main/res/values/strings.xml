@@ -48,6 +48,8 @@
     <string name="channel_mode">Modo de canais</string>
     <string name="stereo_recording">Gravação em estéreo</string>
     <string name="stereo_description">Estéreo usa mais espaço mas captura áudio de dois canais</string>
+    <string name="internal_audio">Capturar áudio interno</string>
+    <string name="internal_audio_description">Captura sons do sistema (chamadas, música, etc.)</string>
     <string name="settings_info">A qualidade mais alta produz ficheiros maiores. WAV mantém a qualidade original mas ocupa mais espaço. AAC oferece boa compressão mantendo boa qualidade.</string>
 
     <!-- Categories -->

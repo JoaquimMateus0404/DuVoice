@@ -69,6 +69,11 @@ class SettingsFragment : Fragment() {
             if (isUpdatingUI) return@setOnCheckedChangeListener
             viewModel.updateStereo(isChecked)
         }
+
+        binding.switchInternalAudio.setOnCheckedChangeListener { _, isChecked ->
+            if (isUpdatingUI) return@setOnCheckedChangeListener
+            viewModel.updateCaptureInternalAudio(isChecked)
+        }
     }
 
     private fun observeViewModel() {
@@ -94,6 +99,9 @@ class SettingsFragment : Fragment() {
 
                     // Update stereo switch
                     binding.switchStereo.isChecked = settings.isStereo
+
+                    // Update internal audio switch
+                    binding.switchInternalAudio.isChecked = settings.captureInternalAudio
 
                     isUpdatingUI = false
                 }
