@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">DuVoice</string>
+    <string name="action_settings">Definições</string>
+
+    <!-- Navigation -->
+    <string name="home_label">Gravações</string>
+    <string name="record_label">Gravar</string>
+    <string name="player_label">Reproduzir</string>
+    <string name="settings_label">Definições</string>
+
+    <!-- Home Screen -->
+    <string name="search_recordings">Pesquisar gravações</string>
+    <string name="all">Todas</string>
+    <string name="sort">Ordenar</string>
+    <string name="no_recordings">Sem gravações</string>
+    <string name="tap_to_record">Toque no botão para gravar</string>
+    <string name="recordings_count">%d gravações</string>
+
+    <!-- Recording Screen -->
+    <string name="record">Gravar</string>
+    <string name="pause">Pausar</string>
+    <string name="resume">Retomar</string>
+    <string name="stop">Parar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="recording_name">Nome da gravação</string>
+    <string name="category">Categoria</string>
+    <string name="audio_settings">Definições de áudio</string>
+    <string name="recording">A gravar...</string>
+    <string name="paused">Pausado</string>
+    <string name="tap_to_start">Toque para iniciar</string>
+
+    <!-- Player Screen -->
+    <string name="play">Reproduzir</string>
+    <string name="play_pause">Reproduzir/Pausar</string>
+    <string name="skip_back">Recuar 10s</string>
+    <string name="skip_forward">Avançar 10s</string>
+    <string name="favorite">Favorito</string>
+    <string name="share">Partilhar</string>
+    <string name="delete">Apagar</string>
+    <string name="more_options">Mais opções</string>
+
+    <!-- Settings Screen -->
+    <string name="audio_quality">Qualidade do áudio</string>
+    <string name="quality_low">Baixa (22 kHz, ficheiros menores)</string>
+    <string name="quality_medium">Média (44.1 kHz, recomendado)</string>
+    <string name="quality_high">Alta (48 kHz, melhor qualidade)</string>
+    <string name="audio_format">Formato do áudio</string>
+    <string name="channel_mode">Modo de canais</string>
+    <string name="stereo_recording">Gravação em estéreo</string>
+    <string name="stereo_description">Estéreo usa mais espaço mas captura áudio de dois canais</string>
+    <string name="settings_info">A qualidade mais alta produz ficheiros maiores. WAV mantém a qualidade original mas ocupa mais espaço. AAC oferece boa compressão mantendo boa qualidade.</string>
+
+    <!-- Categories -->
+    <string name="category_general">📁 Geral</string>
+    <string name="category_classes">📚 Aulas</string>
+    <string name="category_meetings">💼 Reuniões</string>
+    <string name="category_ideas">💡 Ideias</string>
+    <string name="category_music">🎵 Música</string>
+
+    <!-- Sort Options -->
+    <string name="sort_date_desc">Mais recentes</string>
+    <string name="sort_date_asc">Mais antigos</string>
+    <string name="sort_name_asc">Nome (A-Z)</string>
+    <string name="sort_name_desc">Nome (Z-A)</string>
+    <string name="sort_duration_desc">Maior duração</string>
+    <string name="sort_duration_asc">Menor duração</string>
+
+    <!-- Dialogs -->
+    <string name="rename">Renomear</string>
+    <string name="rename_recording">Renomear gravação</string>
+    <string name="delete_recording">Apagar gravação</string>
+    <string name="delete_confirmation">Tem a certeza que deseja apagar \"%s\"?</string>
+    <string name="move_to_category">Mover para categoria</string>
+    <string name="ok">OK</string>
+    <string name="cancel_dialog">Cancelar</string>
+
+    <!-- Permissions -->
+    <string name="permission_required">Permissão necessária</string>
+    <string name="microphone_permission_rationale">A permissão de microfone é necessária para gravar áudio.</string>
+    <string name="notification_permission_rationale">A permissão de notificações permite mostrar o progresso da gravação.</string>
+    <string name="grant_permission">Conceder permissão</string>
+
+    <!-- Errors -->
+    <string name="error_recording">Erro ao gravar</string>
+    <string name="error_playing">Erro ao reproduzir</string>
+    <string name="error_saving">Erro ao guardar</string>
+
+    <!-- Success -->
+    <string name="recording_saved">Gravação guardada</string>
+    <string name="recording_deleted">Gravação apagada</string>
+    <string name="recording_renamed">Gravação renomeada</string>
+</resources>
+        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
+        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
+        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
+        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
+        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
+        convallis.\n\n
+        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
+        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
+        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
+        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
+        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
+        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
+        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
+    </string>
+</resources>

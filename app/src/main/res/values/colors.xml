@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary colors -->
+    <color name="primary">#6750A4</color>
+    <color name="primary_variant">#7F67BE</color>
+    <color name="on_primary">#FFFFFF</color>
+
+    <!-- Secondary colors -->
+    <color name="secondary">#625B71</color>
+    <color name="on_secondary">#FFFFFF</color>
+
+    <!-- Recording colors -->
+    <color name="recording_red">#F44336</color>
+    <color name="recording_red_light">#FFCDD2</color>
+
+    <!-- Waveform colors -->
+    <color name="waveform_primary">#6750A4</color>
+    <color name="waveform_background">#E0E0E0</color>
+
+    <!-- Status colors -->
+    <color name="success">#4CAF50</color>
+    <color name="error">#F44336</color>
+    <color name="warning">#FF9800</color>
+</resources>

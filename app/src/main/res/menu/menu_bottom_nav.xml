@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+</menu>
+        android:title="@string/settings_label" />
+        android:icon="@drawable/ic_settings"
+        android:id="@+id/settingsFragment"
+    <item
+        android:title="@string/record_label" />
+        android:icon="@drawable/ic_mic"
+        android:id="@+id/recordFragment"
+    <item
+        android:title="@string/home_label" />
+        android:icon="@drawable/ic_home"
+        android:id="@+id/homeFragment"
+    <item
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
