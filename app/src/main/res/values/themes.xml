@@ -18,4 +18,16 @@
     </style>
 
     <style name="Theme.DuVoice" parent="Base.Theme.DuVoice" />
+
+    <!-- Splash Screen Theme -->
+    <style name="Theme.DuVoice.Splash" parent="Theme.SplashScreen">
+        <!-- Cor de fundo da splash screen -->
+        <item name="windowSplashScreenBackground">@color/primary</item>
+        <!-- Ícone animado no centro -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <!-- Cor do ícone para Android 12+ -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
+        <!-- Tema para depois da splash screen -->
+        <item name="postSplashScreenTheme">@style/Theme.DuVoice</item>
+    </style>
 </resources>

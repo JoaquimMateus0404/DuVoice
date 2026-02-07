@@ -1,1 +1,5 @@
 /build
+
+# Keystore - NÃO committar para o repositório!
+*.keystore
+*.jks

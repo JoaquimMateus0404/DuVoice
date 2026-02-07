@@ -16,4 +16,14 @@
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorOnSecondary">@color/on_secondary</item>
     </style>
+
+    <style name="Theme.DuVoice" parent="Base.Theme.DuVoice" />
+
+    <!-- Splash Screen Theme (night mode) -->
+    <style name="Theme.DuVoice.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
+        <item name="postSplashScreenTheme">@style/Theme.DuVoice</item>
+    </style>
 </resources>

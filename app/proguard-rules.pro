@@ -5,17 +5,56 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Preserve line numbers for debugging crash reports
+-keepattributes SourceFile,LineNumberTable
+-renamesourcefileattribute SourceFile
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# ============================================
+# DuVoice - Regras de ProGuard para Produção
+# ============================================
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Room Database
+-keep class * extends androidx.room.RoomDatabase
+-keep @androidx.room.Entity class *
+-dontwarn androidx.room.paging.**
+
+# Navigation SafeArgs
+-keepnames class * extends android.os.Parcelable
+-keepnames class * extends java.io.Serializable
+
+# DataStore
+-keepclassmembers class * extends com.google.protobuf.GeneratedMessageLite {
+    <fields>;
+}
+
+# Kotlin Coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+-keepclassmembers class kotlinx.coroutines.** {
+    volatile <fields>;
+}
+
+# Keep data classes
+-keep class com.cleansoft.duvoice.data.model.** { *; }
+-keep class com.cleansoft.duvoice.data.local.entity.** { *; }
+
+# Keep ViewBinding classes
+-keep class com.cleansoft.duvoice.databinding.** { *; }
+
+# Keep Widget classes
+-keep class com.cleansoft.duvoice.widget.** { *; }
+
+# Keep Service
+-keep class com.cleansoft.duvoice.service.** { *; }
+
+# Material Design
+-dontwarn com.google.android.material.**
+-keep class com.google.android.material.** { *; }
+
+# AndroidX
+-dontwarn androidx.**
+-keep class androidx.** { *; }
+-keep interface androidx.** { *; }
+
+# SplashScreen
+-keep class androidx.core.splashscreen.** { *; }
