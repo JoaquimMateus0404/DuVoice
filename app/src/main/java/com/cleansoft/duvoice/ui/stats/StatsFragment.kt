@@ -35,10 +35,6 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.refresh()
-        }
-
         observeViewModel()
     }
 
@@ -69,8 +65,7 @@ class StatsFragment : Fragment() {
 
                 launch {
                     viewModel.isLoading.collectLatest { isLoading ->
-                        binding.swipeRefresh.isRefreshing = isLoading
-                        binding.progressBar.isVisible = isLoading && binding.tvTotalRecordings.text.isEmpty()
+                        binding.progressBar.isVisible = isLoading
                     }
                 }
             }
@@ -100,4 +95,3 @@ class StatsFragment : Fragment() {
         _binding = null
     }
 }
-

@@ -89,4 +89,22 @@
     <string name="recording_saved">Gravação guardada</string>
     <string name="recording_deleted">Gravação apagada</string>
     <string name="recording_renamed">Gravação renomeada</string>
+
+    <!-- Statistics -->
+    <string name="stats_label">Estatísticas</string>
+    <string name="statistics">Estatísticas</string>
+    <string name="stats_subtitle">Resumo das suas gravações</string>
+    <string name="recordings">gravações</string>
+    <string name="total_time">tempo total</string>
+    <string name="storage">armazenamento</string>
+    <string name="this_week">Esta semana</string>
+    <string name="recorded">gravado</string>
+    <string name="details">Detalhes</string>
+    <string name="average_duration">Duração média</string>
+    <string name="by_category">Por categoria</string>
+
+    <!-- Widget -->
+    <string name="widget_description">Grave áudio rapidamente a partir do ecrã inicial</string>
+    <string name="quick_idea">Ideia rápida</string>
+    <string name="quick_recording">Gravação rápida</string>
 </resources>

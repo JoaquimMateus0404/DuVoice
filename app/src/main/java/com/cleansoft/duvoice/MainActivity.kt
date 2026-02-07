@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         // Configurar destinos de nível superior (sem botão de voltar)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.recordFragment, R.id.settingsFragment)
+            setOf(R.id.homeFragment, R.id.recordFragment, R.id.statsFragment, R.id.settingsFragment)
         )
 
         setupActionBarWithNavController(navController, appBarConfiguration)

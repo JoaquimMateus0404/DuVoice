@@ -56,15 +56,13 @@ class QuickRecordWidget : AppWidgetProvider() {
 
             // Atualizar visual baseado no estado
             if (isRecording) {
-                views.setImageViewResource(R.id.btn_widget_record, R.drawable.ic_stop)
-                views.setTextViewText(R.id.tv_widget_status, context.getString(R.string.recording))
-                views.setInt(R.id.btn_widget_record, "setColorFilter",
-                    context.getColor(R.color.recording_red))
+                views.setImageViewResource(R.id.btn_widget_record, R.drawable.ic_stop_white)
+                views.setInt(R.id.btn_widget_record, "setBackgroundResource", R.drawable.widget_stop_button)
+                views.setTextViewText(R.id.tv_widget_status, "🔴 " + context.getString(R.string.recording))
             } else {
-                views.setImageViewResource(R.id.btn_widget_record, R.drawable.ic_mic)
+                views.setImageViewResource(R.id.btn_widget_record, R.drawable.ic_mic_white)
+                views.setInt(R.id.btn_widget_record, "setBackgroundResource", R.drawable.widget_record_button)
                 views.setTextViewText(R.id.tv_widget_status, context.getString(R.string.tap_to_start))
-                views.setInt(R.id.btn_widget_record, "setColorFilter",
-                    context.getColor(R.color.primary))
             }
 
             appWidgetManager.updateAppWidget(appWidgetId, views)
@@ -96,8 +94,8 @@ class QuickRecordWidget : AppWidgetProvider() {
 
     private fun toggleRecording(context: Context, isQuickIdea: Boolean) {
         val serviceIntent = Intent(context, AudioRecordService::class.java).apply {
-            action = AudioRecordService.ACTION_TOGGLE_FROM_WIDGET
-            putExtra(AudioRecordService.EXTRA_IS_QUICK_IDEA, isQuickIdea)
+            action = "com.cleansoft.duvoice.action.TOGGLE_WIDGET"
+            putExtra("is_quick_idea", isQuickIdea)
         }
         context.startForegroundService(serviceIntent)
     }
@@ -110,4 +108,3 @@ class QuickRecordWidget : AppWidgetProvider() {
         // Último widget removido
     }
 }
-
