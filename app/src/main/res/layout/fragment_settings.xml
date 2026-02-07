@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface">
@@ -46,7 +45,6 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="@string/quality_high" />
-
         </RadioGroup>
 
         <com.google.android.material.divider.MaterialDivider
@@ -81,7 +79,6 @@
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="AAC (comprimido, boa qualidade)" />
-
         </RadioGroup>
 
         <com.google.android.material.divider.MaterialDivider
@@ -145,12 +142,8 @@
                     android:text="@string/settings_info"
                     android:textAppearance="?attr/textAppearanceBodySmall"
                     android:textColor="?attr/colorOnSurfaceVariant" />
-
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
-
 </ScrollView>
-

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-</menu>
-        android:title="@string/settings_label" />
-        android:icon="@drawable/ic_settings"
-        android:id="@+id/settingsFragment"
-    <item
-        android:title="@string/record_label" />
-        android:icon="@drawable/ic_mic"
-        android:id="@+id/recordFragment"
-    <item
-        android:title="@string/home_label" />
-        android:icon="@drawable/ic_home"
-        android:id="@+id/homeFragment"
-    <item
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/home_label" />
+    <item
+        android:id="@+id/recordFragment"
+        android:icon="@drawable/ic_mic"
+        android:title="@string/record_label" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings_label" />
+</menu>
