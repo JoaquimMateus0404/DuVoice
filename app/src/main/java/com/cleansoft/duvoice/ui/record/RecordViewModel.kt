@@ -121,8 +121,10 @@ class RecordViewModel(application: Application) : AndroidViewModel(application) 
             val fileName = generateFileName(settings.format)
             currentOutputFile = File(recordingRepository.getRecordingsDirectory(), fileName)
 
-            // Gerar nome padrão
-            _recordingName.value = "Gravação ${SimpleDateFormat("dd/MM HH:mm", Locale.getDefault()).format(Date())}"
+            // Gerar nome padrão APENAS se estiver vazio
+            if (_recordingName.value.isBlank()) {
+                _recordingName.value = "Gravação ${SimpleDateFormat("dd/MM HH:mm", Locale.getDefault()).format(Date())}"
+            }
 
             val intent = Intent(context, AudioRecordService::class.java).apply {
                 action = AudioRecordService.ACTION_START

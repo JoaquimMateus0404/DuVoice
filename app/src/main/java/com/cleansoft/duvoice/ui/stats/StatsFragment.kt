@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.cleansoft.duvoice.R
 import com.cleansoft.duvoice.data.model.Category
 import com.cleansoft.duvoice.databinding.FragmentStatsBinding
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class StatsFragment : Fragment() {
@@ -42,34 +41,38 @@ class StatsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.stats.collectLatest { stats ->
-                        // Estatísticas principais
-                        binding.tvTotalRecordings.text = stats.totalRecordings.toString()
-                        binding.tvTotalHours.text = stats.totalHoursFormatted
-                        binding.tvTotalSize.text = stats.totalSizeFormatted
-
-                        // Esta semana
-                        binding.tvRecordingsThisWeek.text = stats.recordingsThisWeek.toString()
-                        binding.tvDurationThisWeek.text = stats.durationThisWeekFormatted
-
-                        // Médias
-                        binding.tvAverageDuration.text = stats.averageDurationFormatted
-
-                        // Favoritos
-                        binding.tvFavorites.text = stats.favoriteCount.toString()
-
-                        // Por categoria
-                        updateCategoryStats(stats.recordingsByCategory)
+                    viewModel.stats.collect { stats ->
+                        updateUI(stats)
                     }
                 }
 
                 launch {
-                    viewModel.isLoading.collectLatest { isLoading ->
+                    viewModel.isLoading.collect { isLoading ->
                         binding.progressBar.isVisible = isLoading
                     }
                 }
             }
         }
+    }
+
+    private fun updateUI(stats: com.cleansoft.duvoice.data.model.RecordingStats) {
+        // Estatísticas principais
+        binding.tvTotalRecordings.text = stats.totalRecordings.toString()
+        binding.tvTotalHours.text = stats.totalHoursFormatted
+        binding.tvTotalSize.text = stats.totalSizeFormatted
+
+        // Esta semana
+        binding.tvRecordingsThisWeek.text = stats.recordingsThisWeek.toString()
+        binding.tvDurationThisWeek.text = stats.durationThisWeekFormatted
+
+        // Médias
+        binding.tvAverageDuration.text = stats.averageDurationFormatted
+
+        // Favoritos
+        binding.tvFavorites.text = stats.favoriteCount.toString()
+
+        // Por categoria
+        updateCategoryStats(stats.recordingsByCategory)
     }
 
     private fun updateCategoryStats(categoryStats: Map<Category, Int>) {
@@ -85,10 +88,6 @@ class StatsFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.refresh()
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

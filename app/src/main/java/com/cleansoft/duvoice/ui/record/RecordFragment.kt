@@ -16,7 +16,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.cleansoft.duvoice.R
 import com.cleansoft.duvoice.data.model.Category
 import com.cleansoft.duvoice.databinding.FragmentRecordBinding
@@ -98,14 +97,23 @@ class RecordFragment : Fragment() {
                 .show()
         }
 
-        binding.btnSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_record_to_settings)
-        }
 
         binding.etName.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                viewModel.setRecordingName(binding.etName.text?.toString() ?: "")
+                val currentName = binding.etName.text?.toString() ?: ""
+                if (currentName.isNotBlank()) {
+                    viewModel.setRecordingName(currentName)
+                }
             }
+        }
+
+        // Também salvar quando o usuário terminar de digitar
+        binding.etName.setOnEditorActionListener { _, _, _ ->
+            val currentName = binding.etName.text?.toString() ?: ""
+            if (currentName.isNotBlank()) {
+                viewModel.setRecordingName(currentName)
+            }
+            false
         }
     }
 
@@ -132,7 +140,13 @@ class RecordFragment : Fragment() {
 
                 launch {
                     viewModel.recordingName.collectLatest { name ->
-                        if (binding.etName.text?.toString() != name) {
+                        // Só atualizar automaticamente se:
+                        // 1. O campo estiver vazio OU
+                        // 2. Estivermos no estado IDLE (antes de começar a gravar)
+                        val currentText = binding.etName.text?.toString() ?: ""
+                        val isIdle = viewModel.recordingState.value == AudioRecorder.State.IDLE
+
+                        if (currentText.isBlank() && isIdle && name.isNotBlank()) {
                             binding.etName.setText(name)
                         }
                     }

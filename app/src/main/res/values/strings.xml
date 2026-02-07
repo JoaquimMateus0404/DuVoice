@@ -107,4 +107,13 @@
     <string name="widget_description">Grave áudio rapidamente a partir do ecrã inicial</string>
     <string name="quick_idea">Ideia rápida</string>
     <string name="quick_recording">Gravação rápida</string>
+
+    <!-- About -->
+    <string name="about">Sobre</string>
+    <string name="app_version">Versão</string>
+    <string name="version_name">1.0.0</string>
+    <string name="developer">Desenvolvedor</string>
+    <string name="developer_name">Duarte Gauss</string>
+    <string name="build_info">Informações de compilação</string>
+    <string name="build_date">Data de compilação</string>
 </resources>
