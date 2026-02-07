@@ -25,7 +25,7 @@
     <string name="recording_name">Nome da gravação</string>
     <string name="category">Categoria</string>
     <string name="audio_settings">Definições de áudio</string>
-    <string name="recording">A gravar...</string>
+    <string name="recording">A gravar…</string>
     <string name="paused">Pausado</string>
     <string name="tap_to_start">Toque para iniciar</string>
 
@@ -89,19 +89,4 @@
     <string name="recording_saved">Gravação guardada</string>
     <string name="recording_deleted">Gravação apagada</string>
     <string name="recording_renamed">Gravação renomeada</string>
-</resources>
-        non lorem. Nam mollis ipsum quis auctor varius. Quisque elementum eu libero sed commodo. In
-        eros nisl, imperdiet vel imperdiet et, scelerisque a mauris. Pellentesque varius ex nunc,
-        quis imperdiet eros placerat ac. Duis finibus orci et est auctor tincidunt. Sed non viverra
-        ipsum. Nunc quis augue egestas, cursus lorem at, molestie sem. Morbi a consectetur ipsum, a
-        placerat diam. Etiam vulputate dignissim convallis. Integer faucibus mauris sit amet finibus
-        convallis.\n\n
-        Phasellus in aliquet mi. Pellentesque habitant morbi tristique senectus et netus et
-        malesuada fames ac turpis egestas. In volutpat arcu ut felis sagittis, in finibus massa
-        gravida. Pellentesque id tellus orci. Integer dictum, lorem sed efficitur ullamcorper,
-        libero justo consectetur ipsum, in mollis nisl ex sed nisl. Donec maximus ullamcorper
-        sodales. Praesent bibendum rhoncus tellus nec feugiat. In a ornare nulla. Donec rhoncus
-        libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
-        vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
-    </string>
 </resources>
