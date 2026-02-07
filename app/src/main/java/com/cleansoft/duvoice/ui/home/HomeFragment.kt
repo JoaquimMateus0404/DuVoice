@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -92,15 +90,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSearch() {
-        binding.searchBar.setOnClickListener {
-            // Implementar SearchView se necessário
-        }
+        // SearchBar pode ser implementado futuramente
+        // Por enquanto, a pesquisa pode ser feita através dos filtros de categoria
     }
 
     private fun setupSortButton() {
         binding.btnSort.setOnClickListener { anchor ->
             val popup = PopupMenu(requireContext(), anchor)
-            SortOrder.values().forEach { order ->
+            SortOrder.entries.forEach { order ->
                 popup.menu.add(order.displayName).setOnMenuItemClickListener {
                     viewModel.setSortOrder(order)
                     true
@@ -174,7 +171,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun showCategoryDialog(recording: Recording) {
-        val categories = Category.values()
+        val categories = Category.entries
         val items = categories.map { "${it.icon} ${it.displayName}" }.toTypedArray()
 
         MaterialAlertDialogBuilder(requireContext())

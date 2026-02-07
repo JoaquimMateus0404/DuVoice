@@ -23,6 +23,9 @@ class SettingsFragment : Fragment() {
 
     private val viewModel: SettingsViewModel by viewModels()
 
+    // Flag para evitar loop infinito nos listeners
+    private var isUpdatingUI = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -35,14 +38,14 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupQualitySelection()
-        setupFormatSelection()
-        setupStereoSwitch()
+        // Primeiro observar (para preencher valores iniciais), depois configurar listeners
         observeViewModel()
+        setupListeners()
     }
 
-    private fun setupQualitySelection() {
+    private fun setupListeners() {
         binding.rgQuality.setOnCheckedChangeListener { _, checkedId ->
+            if (isUpdatingUI) return@setOnCheckedChangeListener
             val quality = when (checkedId) {
                 R.id.rbLow -> AudioQuality.LOW
                 R.id.rbMedium -> AudioQuality.MEDIUM
@@ -51,10 +54,9 @@ class SettingsFragment : Fragment() {
             }
             viewModel.updateQuality(quality)
         }
-    }
 
-    private fun setupFormatSelection() {
         binding.rgFormat.setOnCheckedChangeListener { _, checkedId ->
+            if (isUpdatingUI) return@setOnCheckedChangeListener
             val format = when (checkedId) {
                 R.id.rbWav -> AudioFormat.WAV
                 R.id.rbAac -> AudioFormat.AAC
@@ -62,10 +64,9 @@ class SettingsFragment : Fragment() {
             }
             viewModel.updateFormat(format)
         }
-    }
 
-    private fun setupStereoSwitch() {
         binding.switchStereo.setOnCheckedChangeListener { _, isChecked ->
+            if (isUpdatingUI) return@setOnCheckedChangeListener
             viewModel.updateStereo(isChecked)
         }
     }
@@ -74,30 +75,27 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.audioSettings.collectLatest { settings ->
+                    isUpdatingUI = true
+
                     // Update quality radio buttons
                     val qualityId = when (settings.quality) {
                         AudioQuality.LOW -> R.id.rbLow
                         AudioQuality.MEDIUM -> R.id.rbMedium
                         AudioQuality.HIGH -> R.id.rbHigh
                     }
-                    if (binding.rgQuality.checkedRadioButtonId != qualityId) {
-                        binding.rgQuality.check(qualityId)
-                    }
+                    binding.rgQuality.check(qualityId)
 
                     // Update format radio buttons
                     val formatId = when (settings.format) {
                         AudioFormat.WAV -> R.id.rbWav
-                        AudioFormat.AAC, AudioFormat.M4A -> R.id.rbAac
-                        else -> R.id.rbWav
+                        AudioFormat.AAC, AudioFormat.M4A, AudioFormat.MP3 -> R.id.rbAac
                     }
-                    if (binding.rgFormat.checkedRadioButtonId != formatId) {
-                        binding.rgFormat.check(formatId)
-                    }
+                    binding.rgFormat.check(formatId)
 
                     // Update stereo switch
-                    if (binding.switchStereo.isChecked != settings.isStereo) {
-                        binding.switchStereo.isChecked = settings.isStereo
-                    }
+                    binding.switchStereo.isChecked = settings.isStereo
+
+                    isUpdatingUI = false
                 }
             }
         }

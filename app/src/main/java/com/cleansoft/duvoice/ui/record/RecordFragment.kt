@@ -64,13 +64,13 @@ class RecordFragment : Fragment() {
     }
 
     private fun setupCategoryDropdown() {
-        val categories = Category.values().map { "${it.icon} ${it.displayName}" }
+        val categories = Category.entries.map { "${it.icon} ${it.displayName}" }
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
         binding.actvCategory.setAdapter(adapter)
         binding.actvCategory.setText(categories[0], false)
 
         binding.actvCategory.setOnItemClickListener { _, _, position, _ ->
-            viewModel.setCategory(Category.values()[position])
+            viewModel.setCategory(Category.entries[position])
         }
     }
 
